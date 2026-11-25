@@ -42,7 +42,14 @@
       border-radius: 5px;
       padding: 5px 8px;
       font-size: 12px;
+      max-width: 100%;
       cursor: pointer;
+    }
+    @media (max-width: 520px) {
+      body { padding: 6px; }
+      .wrap { padding: 10px; }
+      select { width: 100%; }
+      canvas { height: 220px; }
     }
     .kpi {
       color: #4b5563;
@@ -230,8 +237,12 @@
         ctx.setLineDash([]);
 
         ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillStyle = C.muted;
-        const step = curYears.length > 13 ? 2 : 1;
-        curYears.forEach((yr, i) => { if (i % step === 0 || i === curYears.length - 1) ctx.fillText(String(yr), xPos(i), H - pad.bottom + 7); });
+        const step = rect.width < 420 ? (curYears.length > 10 ? 3 : 2) : (curYears.length > 13 ? 2 : 1);
+        curYears.forEach((yr, i) => {
+          if (i === curYears.length - 1 || (i % step === 0 && i < curYears.length - 1 - (step > 1 ? 1 : 0))) {
+            ctx.fillText(String(yr), xPos(i), H - pad.bottom + 7);
+          }
+        });
 
         curSeries.forEach(s => {
           ctx.strokeStyle = s.color; ctx.lineWidth = 2.2; ctx.setLineDash(s.dashed ? [5, 4] : []);
@@ -245,6 +256,9 @@
         if (hoverIdx >= 0 && hoverIdx < curYears.length) {
           ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1;
           ctx.beginPath(); ctx.moveTo(xPos(hoverIdx), pad.top); ctx.lineTo(xPos(hoverIdx), H - pad.bottom); ctx.stroke();
+        }
+        if (window.parent !== window) {
+          window.parent.postMessage({ type: 'md-typora-resize', src: location.pathname.split('/').pop(), height: document.documentElement.scrollHeight }, '*');
         }
       }
 
