@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Καθαρός Μισθός vs Πληθωρισμός — Ελλάδα &amp; ΕΕ-27</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 12px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 13px;
+      color: #1f2937;
+      background: #ffffff;
+      font-variant-numeric: tabular-nums;
+    }
+    .wrap {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 14px;
+      background: #ffffff;
+    }
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    select {
+      background: #f9fafb;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      border-radius: 5px;
+      padding: 5px 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .kpi {
+      color: #4b5563;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding: 9px 0;
+      font-size: 12px;
+    }
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-line {
+      display: inline-block;
+      width: 16px;
+    }
+    .chart-box {
+      position: relative;
+      width: 100%;
+    }
+    canvas {
+      width: 100%;
+      height: 265px;
+      display: block;
+    }
+    .tooltip {
+      display: none;
+      position: absolute;
+      z-index: 10;
+      pointer-events: none;
+      background: #ffffff;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      white-space: nowrap;
+    }
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 11px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="controls">
+        <select id="viewMode">
+          <option value="real">Πραγματικός Καθαρός Μισθός (Δείκτης)</option>
+          <option value="nom_vs_inf">Ονομαστικός Μισθός vs Πληθωρισμός</option>
+          <option value="yoy">Ετήσια Μεταβολή (%)</option>
+        </select>
+        <select id="infType">
+          <option value="headline">Γενικός Πληθωρισμός (HICP)</option>
+          <option value="core">Δομικός (χωρίς ενέργεια &amp; τρόφιμα)</option>
+        </select>
+        <select id="baseYear">
+          <option value="2013">Βάση 2013 = 100 (Ελλάδα &amp; ΕΕ-27)</option>
+          <option value="2010">Βάση 2010 = 100 (15ετία Ελλάδας)</option>
+        </select>
+      </div>
+      <div id="kpi" class="kpi"></div>
+    </div>
+    <div id="legend" class="legend"></div>
+    <div class="chart-box">
+      <canvas id="chart"></canvas>
+      <div id="tooltip" class="tooltip"></div>
+    </div>
+    <div class="footer">
+      <span>Πηγή: Eurostat (earn_nt_net: άγαμος 100% μέσου μισθού · prc_hicp_aind)</span>
+      <span>*ΕΕ-27 καθαρός μισθός διαθέσιμος από 2013</span>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const YEARS = [2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+      const DATA = {
+        el_wage: {2010:18567.44,2011:17545.08,2012:17117.04,2013:15810.81,2014:16070.17,2015:15601.94,2016:14979.79,2017:14863.67,2018:14850.01,2019:15112.49,2020:14247.43,2021:15407.96,2022:16819.51,2023:18022.41,2024:20041.56,2025:21498.27},
+        eu_wage: {2013:21323.68,2014:21608.28,2015:21953.76,2016:22239.91,2017:22597.24,2018:23166.71,2019:23849.60,2020:24047.22,2021:25104.11,2022:26653.72,2023:28323.92,2024:28776.80,2025:29953.62},
+        el_headline: {2010:4.7,2011:3.1,2012:1.0,2013:-0.9,2014:-1.4,2015:-1.1,2016:0.0,2017:1.1,2018:0.8,2019:0.5,2020:-1.3,2021:0.6,2022:9.3,2023:4.2,2024:3.0,2025:2.9},
+        eu_headline: {2010:1.8,2011:2.9,2012:2.6,2013:1.3,2014:0.4,2015:0.1,2016:0.2,2017:1.6,2018:1.8,2019:1.4,2020:0.7,2021:2.9,2022:9.2,2023:6.4,2024:2.6,2025:2.5},
+        el_core: {2010:2.6,2011:1.1,2012:-0.3,2013:-2.4,2014:-1.5,2015:-0.4,2016:0.6,2017:0.3,2018:0.3,2019:0.8,2020:-1.2,2021:-1.1,2022:4.6,2023:5.3,2024:3.6,2025:3.6},
+        eu_core: {2010:1.0,2011:1.4,2012:1.6,2013:1.1,2014:0.8,2015:1.0,2016:0.8,2017:1.0,2018:1.0,2019:1.2,2020:1.1,2021:1.8,2022:4.7,2023:5.7,2024:3.1,2025:2.6}
+      };
+      const C = { c1: '#2563eb', c2: '#059669', c3: '#d97706', c4: '#dc2626', grid: '#e5e7eb', muted: '#6b7280' };
+      const canvas = document.getElementById('chart');
+      const ctx = canvas.getContext('2d');
+      const tip = document.getElementById('tooltip');
+      const viewEl = document.getElementById('viewMode');
+      const infEl = document.getElementById('infType');
+      const baseEl = document.getElementById('baseYear');
+      const legEl = document.getElementById('legend');
+      const kpiEl = document.getElementById('kpi');
+      let hoverIdx = -1, curYears = [], curSeries = [];
+
+      function compute() {
+        const mode = viewEl.value, inf = infEl.value, base = parseInt(baseEl.value, 10);
+        const elInf = inf === 'headline' ? DATA.el_headline : DATA.el_core;
+        const euInf = inf === 'headline' ? DATA.eu_headline : DATA.eu_core;
+        if (mode === 'yoy') {
+          baseEl.disabled = true; baseEl.style.opacity = '0.5';
+          curYears = YEARS.slice(1);
+          const elW = curYears.map(y => ((DATA.el_wage[y] / DATA.el_wage[y-1]) - 1) * 100);
+          const euW = curYears.map(y => (DATA.eu_wage[y] && DATA.eu_wage[y-1]) ? ((DATA.eu_wage[y] / DATA.eu_wage[y-1]) - 1) * 100 : null);
+          curSeries = [
+            { label: 'Ελλάδα: Καθαρός Μισθός (%)', data: elW, color: C.c1, dashed: false },
+            { label: 'Ελλάδα: Πληθωρισμός (%)', data: curYears.map(y => elInf[y]), color: C.c4, dashed: true },
+            { label: 'ΕΕ-27: Καθαρός Μισθός (%)', data: euW, color: C.c2, dashed: false },
+            { label: 'ΕΕ-27: Πληθωρισμός (%)', data: curYears.map(y => euInf[y]), color: C.c3, dashed: true }
+          ];
+          kpiEl.textContent = `2025: ΕΛ +${elW[elW.length-1].toFixed(1)}% / +${elInf[2025].toFixed(1)}% · ΕΕ +${euW[euW.length-1].toFixed(1)}% / +${euInf[2025].toFixed(1)}%`;
+          return;
+        }
+        baseEl.disabled = false; baseEl.style.opacity = '1';
+        curYears = base === 2013 ? YEARS.filter(y => y >= 2013) : YEARS;
+        let pEl = 100, pEu = 100, pEu13 = 100;
+        const elP = {}, euP = {}, euP13 = {};
+        curYears.forEach(y => { if (y > base) { pEl *= (1 + elInf[y]/100); pEu *= (1 + euInf[y]/100); } elP[y] = pEl; euP[y] = pEu; });
+        YEARS.filter(y => y >= 2013).forEach(y => { if (y > 2013) pEu13 *= (1 + euInf[y]/100); euP13[y] = pEu13; });
+        const elNom = curYears.map(y => (DATA.el_wage[y] / DATA.el_wage[base]) * 100);
+        const elReal = curYears.map((y, i) => (elNom[i] / elP[y]) * 100);
+        const euNom = curYears.map(y => DATA.eu_wage[y] ? (DATA.eu_wage[y] / DATA.eu_wage[2013]) * 100 : null);
+        const euReal = curYears.map(y => DATA.eu_wage[y] ? ((DATA.eu_wage[y] / DATA.eu_wage[2013]) * 100 / euP13[y]) * 100 : null);
+        if (mode === 'real') {
+          curSeries = [
+            { label: `Ελλάδα: Πραγματικός Καθαρός Μισθός (${base}=100)`, data: elReal, color: C.c1, dashed: false },
+            { label: `ΕΕ-27: Πραγματικός Καθαρός Μισθός (2013=100)`, data: euReal, color: C.c2, dashed: false }
+          ];
+          const dEl = (elReal[elReal.length-1]-100).toFixed(1), dEu = (euReal[euReal.length-1]-100).toFixed(1);
+          kpiEl.textContent = `2025: Ελλάδα ${dEl >= 0 ? '+' : ''}${dEl}% · ΕΕ-27 ${dEu >= 0 ? '+' : ''}${dEu}%`;
+        } else {
+          curSeries = [
+            { label: `Ελλάδα: Καθαρός Μισθός (${base}=100)`, data: elNom, color: C.c1, dashed: false },
+            { label: `Ελλάδα: Τιμές/Πληθωρισμός (${base}=100)`, data: curYears.map(y => elP[y]), color: C.c4, dashed: true },
+            { label: `ΕΕ-27: Καθαρός Μισθός (2013=100)`, data: euNom, color: C.c2, dashed: false },
+            { label: `ΕΕ-27: Τιμές/Πληθωρισμός (${base}=100)`, data: curYears.map(y => euP[y]), color: C.c3, dashed: true }
+          ];
+          kpiEl.textContent = `Ελλάδα (${base}→2025): Μισθός +${(elNom[elNom.length-1]-100).toFixed(1)}% · Τιμές +${(elP[2025]-100).toFixed(1)}%`;
+        }
+      }
+
+      function draw() {
+        compute();
+        legEl.innerHTML = curSeries.map(s => `<span class="legend-item"><span class="legend-line" style="border-top:2px ${s.dashed?'dashed':'solid'} ${s.color};"></span><span>${s.label}</span></span>`).join('');
+        const dpr = window.devicePixelRatio || 1, rect = canvas.getBoundingClientRect();
+        if (!rect.width) return;
+        const W = rect.width, H = rect.height;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, W, H);
+        const pad = { top: 14, right: 16, bottom: 26, left: 42 };
+        const cw = W - pad.left - pad.right, ch = H - pad.top - pad.bottom;
+        const isYoy = viewEl.value === 'yoy', ref = isYoy ? 0 : 100;
+        const vals = curSeries.flatMap(s => s.data.filter(v => v !== null));
+        let minV = Math.min(...vals, ref), maxV = Math.max(...vals, ref);
+        const span = maxV - minV || 10;
+        minV = Math.floor((minV - span * 0.08) / 2) * 2;
+        maxV = Math.ceil((maxV + span * 0.08) / 2) * 2;
+        const xPos = i => pad.left + (i / (curYears.length - 1)) * cw;
+        const yPos = v => pad.top + ((maxV - v) / (maxV - minV)) * ch;
+
+        ctx.font = '11px system-ui, sans-serif'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        for (let t = 0; t <= 5; t++) {
+          const val = minV + (t / 5) * (maxV - minV), y = yPos(val);
+          ctx.strokeStyle = C.grid; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(W - pad.right, y); ctx.stroke();
+          ctx.fillStyle = C.muted; ctx.fillText(isYoy ? `${val.toFixed(0)}%` : val.toFixed(0), pad.left - 6, y);
+        }
+        ctx.strokeStyle = '#9ca3af'; ctx.setLineDash([3, 3]);
+        ctx.beginPath(); ctx.moveTo(pad.left, yPos(ref)); ctx.lineTo(W - pad.right, yPos(ref)); ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillStyle = C.muted;
+        const step = curYears.length > 13 ? 2 : 1;
+        curYears.forEach((yr, i) => { if (i % step === 0 || i === curYears.length - 1) ctx.fillText(String(yr), xPos(i), H - pad.bottom + 7); });
+
+        curSeries.forEach(s => {
+          ctx.strokeStyle = s.color; ctx.lineWidth = 2.2; ctx.setLineDash(s.dashed ? [5, 4] : []);
+          ctx.beginPath(); let started = false;
+          s.data.forEach((v, i) => { if (v === null) return; if (!started) { ctx.moveTo(xPos(i), yPos(v)); started = true; } else ctx.lineTo(xPos(i), yPos(v)); });
+          ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillStyle = s.color;
+          s.data.forEach((v, i) => { if (v !== null) { ctx.beginPath(); ctx.arc(xPos(i), yPos(v), hoverIdx === i ? 4.5 : 2.5, 0, Math.PI * 2); ctx.fill(); } });
+        });
+
+        if (hoverIdx >= 0 && hoverIdx < curYears.length) {
+          ctx.strokeStyle = '#9ca3af'; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(xPos(hoverIdx), pad.top); ctx.lineTo(xPos(hoverIdx), H - pad.bottom); ctx.stroke();
+        }
+      }
+
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        const idx = Math.round(((e.clientX - rect.left - 42) / (rect.width - 58)) * (curYears.length - 1));
+        if (idx >= 0 && idx < curYears.length) {
+          hoverIdx = idx; draw();
+          const isYoy = viewEl.value === 'yoy';
+          let html = `<div style="font-weight:600;margin-bottom:4px;">${curYears[idx]}</div>`;
+          curSeries.forEach(s => {
+            const val = s.data[idx];
+            if (val !== null) {
+              const fmt = isYoy ? `${val >= 0 ? '+' : ''}${val.toFixed(1)}%` : val.toFixed(1);
+              html += `<div style="display:flex;justify-content:space-between;gap:12px;"><span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${s.color};margin-right:6px;"></span>${s.label.split('(')[0].trim()}</span><span style="font-family:ui-monospace,monospace;font-weight:600;">${fmt}</span></div>`;
+            }
+          });
+          tip.innerHTML = html; tip.style.display = 'block';
+          tip.style.left = Math.min(rect.width - tip.offsetWidth - 8, Math.max(8, e.clientX - rect.left + 12)) + 'px';
+          tip.style.top = Math.max(8, e.clientY - rect.top - tip.offsetHeight - 8) + 'px';
+        }
+      });
+      canvas.addEventListener('mouseleave', () => { hoverIdx = -1; tip.style.display = 'none'; draw(); });
+      [viewEl, infEl, baseEl].forEach(el => el.addEventListener('change', draw));
+      window.addEventListener('resize', draw);
+      draw();
+    })();
+  </script>
+</body>
+</html>
