@@ -1,0 +1,761 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><style type='text/css'>html {overflow-x: initial !important;}</style>
+<style type='text/css'  id="style-base">:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; --title-bar-height: 20px; }
+.mac-os-11 { --title-bar-height: 28px; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, "Segoe UI Emoji", "SF Pro", sans-serif; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, h5 { white-space: pre-wrap; }
+body { margin: 0px; padding: 0px; height: auto; inset: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; }
+iframe { margin: auto; }
+.md-url, a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 36px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p *, #write.first-line-indent svg * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+.typora-export .task-list-item input { pointer-events: none; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; image-orientation: from-image; }
+img:not([height]) { height: auto; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+svg sub, svg sup { position: static; }
+.nodeLabel p { padding-right: 2px; padding-left: 2px; }
+.typora-export .nodeLabel p { padding-right: 0px; padding-left: 0px; }
+foreignobject { overflow: visible; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 4; }
+p { orphans: 4; }
+li p { orphans: 1; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px; }
+thead, tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; position: relative; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; }
+.md-fences-adv-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+svg { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li blockquote { margin: 1rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; font-variant-ligatures: no-common-ligatures; }
+  #write { margin-top: 0px; border-color: transparent !important; padding-top: 0px !important; padding-bottom: 0px !important; }
+  .typora-export * { print-color-adjust: exact; }
+  .typora-export #write { break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+  .is-mac table { break-inside: avoid; }
+  #write > p:nth-child(1) { margin-top: 0px; }
+  .typora-export-show-outline .typora-export-sidebar { display: none; }
+  figure { overflow-x: visible; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+#write.first-line-indent p > .md-image:only-child:not(.md-img-error) img { left: -2em; position: relative; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+.MathJax_ref { fill: currentcolor; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus, [contenteditable="false"]:active, [contenteditable="false"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.reversefootnote { font-family: ui-monospace, sans-serif; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.6; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: medium !important; border-style: none !important; border-color: currentcolor !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="flow"] svg, [lang="mermaid"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; }
+.highlight td, .highlight tr { border: 0px; }
+mark { background: rgb(255, 255, 0); color: rgb(0, 0, 0); }
+.md-html-inline .md-plain, .md-html-inline strong, mark .md-inline-math, mark strong { color: inherit; }
+.md-expand mark .md-meta { opacity: 0.3 !important; }
+mark .md-meta { color: rgb(0, 0, 0); }
+@media print {
+  .typora-export h1, .typora-export h2, .typora-export h3, .typora-export h4, .typora-export h5, .typora-export h6 { break-inside: avoid; }
+}
+.md-diagram-panel .messageText { stroke: none !important; }
+.md-diagram-panel .start-state { fill: var(--node-fill); }
+.md-diagram-panel .edgeLabel rect { opacity: 1 !important; }
+.md-fences.md-fences-math { font-size: 1em; }
+.md-fences-advanced:not(.md-focus) { padding: 0px; white-space: nowrap; border: 0px; }
+.md-fences-advanced:not(.md-focus) { background: inherit; }
+.mermaid-svg { margin: auto; }
+.typora-export-show-outline .typora-export-content { max-width: 1440px; margin: auto; display: flex; flex-direction: row; }
+.typora-export-sidebar { width: 300px; font-size: 0.8rem; margin-top: 80px; margin-right: 18px; }
+.typora-export-show-outline #write { --webkit-flex: 2; flex: 2 1 0%; }
+.typora-export-sidebar .outline-content { position: fixed; top: 0px; max-height: 100%; overflow: hidden auto; padding-bottom: 30px; padding-top: 60px; width: 300px; }
+@media screen and (max-width: 1024px) {
+  .typora-export-sidebar, .typora-export-sidebar .outline-content { width: 240px; }
+}
+@media screen and (max-width: 800px) {
+  .typora-export-sidebar { display: none; }
+}
+.outline-content li, .outline-content ul { margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; list-style: none; overflow-wrap: anywhere; }
+.outline-content ul { margin-top: 0px; margin-bottom: 0px; }
+.outline-content strong { font-weight: 400; }
+.outline-expander { width: 1rem; height: 1.42857rem; position: relative; display: table-cell; vertical-align: middle; cursor: pointer; padding-left: 4px; }
+.outline-expander::before { content: ""; position: relative; font-family: Ionicons; display: inline-block; font-size: 8px; vertical-align: middle; }
+.outline-item { padding-top: 3px; padding-bottom: 3px; cursor: pointer; }
+.outline-expander:hover::before { content: ""; }
+.outline-h1 > .outline-item { padding-left: 0px; }
+.outline-h2 > .outline-item { padding-left: 1em; }
+.outline-h3 > .outline-item { padding-left: 2em; }
+.outline-h4 > .outline-item { padding-left: 3em; }
+.outline-h5 > .outline-item { padding-left: 4em; }
+.outline-h6 > .outline-item { padding-left: 5em; }
+.outline-label { cursor: pointer; display: table-cell; vertical-align: middle; text-decoration: none; color: inherit; }
+.outline-label:hover { text-decoration: underline; }
+.outline-item:hover { border-color: rgb(245, 245, 245); background-color: var(--item-hover-bg-color); }
+.outline-item:hover { margin-left: -28px; margin-right: -28px; border-left: 28px solid transparent; border-right: 28px solid transparent; }
+.outline-item-single .outline-expander::before, .outline-item-single .outline-expander:hover::before { display: none; }
+.outline-item-open > .outline-item > .outline-expander::before { content: ""; }
+.outline-children { display: none; }
+.info-panel-tab-wrapper { display: none; }
+.outline-item-open > .outline-children { display: block; }
+.typora-export .outline-item { padding-top: 1px; padding-bottom: 1px; }
+.typora-export .outline-item:hover { margin-right: -8px; border-right: 8px solid transparent; }
+.typora-export .outline-expander::before { content: "+"; font-family: inherit; top: -1px; }
+.typora-export .outline-expander:hover::before, .typora-export .outline-item-open > .outline-item > .outline-expander::before { content: "−"; }
+.typora-export-collapse-outline .outline-children { display: none; }
+.typora-export-collapse-outline .outline-item-open > .outline-children, .typora-export-no-collapse-outline .outline-children { display: block; }
+.typora-export-no-collapse-outline .outline-expander::before { content: "" !important; }
+.typora-export-show-outline .outline-item-active > .outline-item .outline-label { font-weight: 700; }
+.md-inline-math-container mjx-container { zoom: 0.95; }
+mjx-container { break-inside: avoid; }
+.md-alert.md-alert-note { border-left-color: rgb(9, 105, 218); }
+.md-alert.md-alert-important { border-left-color: rgb(130, 80, 223); }
+.md-alert.md-alert-warning { border-left-color: rgb(154, 103, 0); }
+.md-alert.md-alert-tip { border-left-color: rgb(31, 136, 61); }
+.md-alert.md-alert-caution { border-left-color: rgb(207, 34, 46); }
+.md-alert { padding: 0px 1em; margin-bottom: 16px; color: inherit; border-left: 0.25em solid rgb(0, 0, 0); }
+.md-alert-text-note { color: rgb(9, 105, 218); }
+.md-alert-text-important { color: rgb(130, 80, 223); }
+.md-alert-text-warning { color: rgb(154, 103, 0); }
+.md-alert-text-tip { color: rgb(31, 136, 61); }
+.md-alert-text-caution { color: rgb(207, 34, 46); }
+.md-alert-text { font-size: 0.9rem; font-weight: 700; }
+.md-alert-text svg { fill: currentcolor; position: relative; top: 0.125em; margin-right: 1ch; overflow: visible; }
+.md-alert-text-container::after { content: attr(data-text); text-transform: capitalize; pointer-events: none; margin-right: 1ch; }
+
+</style>
+<style type='text/css'  id="style-theme_css">/* ============================================
+   BASE
+   ============================================ */
+
+:root {
+    --bg-color:               #211d25;
+    --side-bar-bg-color:      #19161d;
+    --text-color:             #e8e6ec;
+    --md-char-color:          #4a4353;
+    --meta-content-color:     #6b5f7a;
+    --primary-color:          #b080ff;
+    --primary-btn-border-color: #7138cc;
+    --primary-btn-text-color: #ffffff;
+    --window-border:          1px solid #2e2935;
+    --active-file-bg-color:   #28242e;
+    --active-file-text-color: #e2d3fe;
+    --active-file-border-color: #b080ff;
+    --side-bar-bg-color:      #19161d;
+    --item-hover-bg-color:    rgba(176, 128, 255, 0.08);
+    --item-hover-text-color:  #e2d3fe;
+    --monospace:              'JetBrains Mono', 'Pretendard', monospace;
+}
+
+html {
+    font-size: 16px;
+    background-color: var(--bg-color);
+}
+
+body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+/* ============================================
+   WRITING AREA
+   ============================================ */
+
+#write {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 2rem 6rem;
+    font-size: 1rem;
+    line-height: 1.85;
+    font-weight: 300;
+    color: #d4d0da;
+}
+
+/* ============================================
+   HEADINGS
+   ============================================ */
+
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+    font-family: 'Pretendard', sans-serif;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 2.4rem;
+    margin-bottom: 0.8rem;
+    color: #e2d3fe;
+    letter-spacing: -0.01em;
+}
+
+#write h1 {
+    font-size: 1.64rem;
+    color: #e2d3fe;
+    border-bottom: 1px solid #2e2935;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+#write h2 {
+    font-size: 1.50rem;
+    color: #d4c5f9;
+    border-bottom: 1px solid #28242e;
+    padding-bottom: 0.35rem;
+}
+
+#write h3 {
+    font-size: 1.33rem;
+    color: #c4b4ee;
+}
+
+#write h4 {
+    font-size: 1.2rem;
+    color: #b3a3dd;
+}
+
+#write h5 {
+    font-size: 1.1rem;
+    color: #b3a3dd;
+}
+
+#write h6 {
+    font-size: 1.1rem;
+    color: #b3b3dd;
+}
+
+/* ============================================
+   PARAGRAPH & TEXT
+   ============================================ */
+
+#write p {
+    margin: 0.6rem 0 1rem;
+    color: #d4d0da;
+}
+
+#write strong {
+    font-weight: 600;
+    color: #e2d3fe;
+}
+
+#write em {
+    color: #c4b4ee;
+    font-style: italic;
+}
+
+#write a {
+    color: #b080ff;
+    text-decoration: none;
+}
+
+#write a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+/* ============================================
+   CODE
+   ============================================ */
+
+/* 인라인 코드 */
+code, tt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background-color: #28242e;
+    color: #ffcf99;
+    padding: 0.15em 0.45em;
+    border-radius: 4px;
+    border: 1px solid #2e2935;
+}
+
+/* 코드블록 - CodeMirror 내부는 건드리지 않고 컨테이너만 설정 */
+.md-fences,
+code, tt {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.md-fences {
+    background-color: #19161d;
+    border: 1px solid #2e2935;
+    border-radius: 8px;
+    margin-top: 1.2rem;
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 1.4rem;
+    color: #d4d0da;
+    font-size: 0.88em;
+}
+
+.CodeMirror-gutters {
+    background-color: #19161d;
+    border-right: 1px solid #2e2935;
+}
+
+/* ============================================
+   BLOCKQUOTE
+   ============================================ */
+
+#write blockquote {
+    border-left: 3px solid #7138cc;
+    background-color: rgba(113, 56, 204, 0.08);
+    margin: 1.2rem 0;
+    padding: 0.8rem 1.2rem;
+    border-radius: 0 6px 6px 0;
+    color: #b3a3dd;
+}
+
+#write blockquote p {
+    color: #b3a3dd;
+    margin: 0;
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+
+#write table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.4rem 0;
+    font-size: 0.93rem;
+}
+
+#write table thead tr {
+    background-color: #28242e;
+    border-bottom: 2px solid #3a3344;
+}
+
+#write table th {
+    padding: 0.65rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #e2d3fe;
+    font-size: 0.88rem;
+    letter-spacing: 0.01em;
+}
+
+#write table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid #2a2630;
+    color: #c8c4d0;
+    vertical-align: top;
+}
+
+#write table tr:nth-child(2n) td {
+    background-color: rgba(40, 36, 46, 0.5);
+}
+
+#write table tr:hover td {
+    background-color: rgba(176, 128, 255, 0.06);
+}
+
+/* ============================================
+   LIST
+   ============================================ */
+
+#write ul,
+#write ol {
+    padding-left: 1.875rem;  /* github.css 기준 30px */
+    margin: 0.8em 0;
+}
+
+#write li > ul,
+#write li > ol {
+    margin: 0;
+}
+
+#write ul:first-child,
+#write ol:first-child {
+    margin-top: 0;
+}
+
+#write ul:last-child,
+#write ol:last-child {
+    margin-bottom: 0;
+}
+
+#write li {
+    color: #d4d0da;
+    line-height: 1.8;
+}
+
+#write ul li::marker {
+    color: #7138cc;
+}
+
+#write ol li::marker {
+    color: #7a6a99;
+    font-weight: 600;
+}
+
+/* ============================================
+   TASK LIST (체크박스)
+   ============================================ */
+
+li p.first {
+    display: inline-block;
+}
+
+#write .md-task-list-item > input {
+    margin-left: -1.3em;
+    accent-color: #7138cc;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#write .md-task-list-item {
+    line-height: 1.6;
+}
+
+#write .md-task-list-item.task-list-done > p {
+    color: #4a4353;
+    text-decoration: line-through;
+}
+
+/* ============================================
+   HR
+   ============================================ */
+
+#write hr {
+    border: none;
+    border-top: 1px solid #2e2935;
+    margin: 2.4rem 0;
+}
+
+/* ============================================
+   IMAGE
+   ============================================ */
+
+#write img {
+    max-width: 100%;
+    border-radius: 6px;
+    border: 1px solid #2e2935;
+}
+
+/* ============================================
+   MARK / HIGHLIGHT
+   ============================================ */
+
+#write mark {
+    background-color: rgba(176, 128, 255, 0.2);
+    color: #e2d3fe;
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+}
+
+/* ============================================
+   TOC
+   ============================================ */
+
+.md-toc {
+    background-color: #19161d;
+    border: 1px solid #2e2935;
+    border-radius: 8px;
+    padding: 1rem 1.4rem;
+    margin: 1.5rem 0;
+}
+
+.md-toc-item a {
+    color: #938f9b;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.md-toc-item a:hover {
+    color: #b080ff;
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+
+.sidebar-tab-btn {
+    color: #938f9b;
+}
+
+.sidebar-tab-btn.active {
+    color: #b080ff;
+}
+
+#typora-sidebar {
+    background-color: var(--side-bar-bg-color);
+    border-right: var(--window-border);
+}
+
+.file-list-item-file-name,
+.file-node-content {
+    color: #938f9b;
+    font-family: 'Pretendard', sans-serif;
+    font-size: 0.88rem;
+}
+
+.file-list-item.active .file-list-item-file-name,
+.file-node-open > .file-node-background > .file-node-content {
+    color: #e2d3fe;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3a3344;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7138cc;
+}
+
+/* ============================================
+   FOCUS MODE
+   ============================================ */
+
+.on-focus-mode .md-end-block:not(.md-focus):not(.md-focus-container) {
+    opacity: 0.25;
+}
+
+/* ============================================
+   PRINT / EXPORT
+   ============================================ */
+
+@media print {
+    @page {
+        background: #211d25 !important;
+        background-color: #211d25 !important;
+    }
+
+    html, body, #write {
+        background: #211d25 !important;
+        border: 0 !important;
+        outline: 0 !important;
+        box-shadow: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    body {
+        color: #d4d0da;
+    }
+
+    :root {
+        --window-border: 0;
+        --bg-color: #211d25;
+    }
+
+    #write > :first-child {
+        border-top: 0 !important;
+    }
+
+    .typora-export * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ============================================
+   SYNTAX HIGHLIGHTING (cm-s-inner)
+   Kiro Dark 팔레트 기반
+   ============================================ */
+
+.cm-s-inner {
+    background-color: #19161d;
+    color: #d4d0da;
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.6;
+}
+
+.cm-s-inner .CodeMirror-gutters {
+    background: #19161d;
+    border-right: 1px solid #2e2935;
+}
+
+.cm-s-inner .CodeMirror-linenumber {
+    color: #4a4353;
+}
+
+.cm-s-inner .CodeMirror-cursor {
+    border-left: 2px solid #b080ff;
+}
+
+.cm-s-inner div.CodeMirror-selected {
+    background: rgba(176, 128, 255, 0.15);
+}
+
+.cm-s-inner .cm-keyword {
+    color: #e2d3fe;
+}
+
+.cm-s-inner .cm-def,
+.cm-s-inner .cm-callee {
+    color: #8dc8fb;
+}
+
+.cm-s-inner .cm-string,
+.cm-s-inner .cm-string-2 {
+    color: #80ffb5;
+}
+
+.cm-s-inner .cm-variable,
+.cm-s-inner .cm-variable-2,
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-property {
+    color: #80f4ff;
+}
+
+.cm-s-inner .cm-number {
+    color: #ffcf99;
+}
+
+.cm-s-inner .cm-type,
+.cm-s-inner .cm-qualifier,
+.cm-s-inner .cm-builtin {
+    color: #ffcf99;
+}
+
+.cm-s-inner .cm-comment {
+    color: rgba(255, 255, 255, 0.33);
+    font-style: italic;
+}
+
+.cm-s-inner .cm-operator,
+.cm-s-inner .cm-punctuation {
+    color: #c4b4ee;
+}
+
+.cm-s-inner .cm-tag {
+    color: #ff80b5;
+}
+
+.cm-s-inner .cm-attribute {
+    color: #ffcf99;
+}
+
+.cm-s-inner .cm-error {
+    color: #ff8080;
+    border-bottom: 1px solid #ff8080;
+}
+</style>
+<style type='text/css'  id="style-lp">ol, ul {padding-left: 40px}</style>
+
+<title>Ελληνική Οικονομία</title>
+</head>
+<body class='typora-export os-windows typora-export-show-outline typora-export-no-collapse-outline'><div class='typora-export-content'>
+<div class="typora-export-sidebar"><div class="outline-content"><li class="outline-item-wrapper outline-h1"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#ελληνική-οικονομία-πάει-καλά-ή-όχι">Ελληνική Οικονομία. Πάει καλά ή όχι;</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#τα-φοβερά-αποτελέσματα">Τα φοβερά αποτελέσματα… </a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#το-δήθεν-οικονομικό-θαύμα">Το δήθεν Οικονομικό Θαύμα</a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#τι-δείχνουν-τα-στοιχεία"><strong>Τι δείχνουν τα στοιχεία</strong></a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#και-τώρα-η-στιγμή-της-αλήθειας">Και τώρα η στιγμή της αλήθειας…</a></div><ul class="outline-children"><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#1-μέσος-μισθός-δεν-σημαίνει-τυπικός-μισθός-μέσος-όρος-vs-διάμεσος"><strong>1. «Μέσος μισθός» δεν σημαίνει «τυπικός μισθός» (Μέσος όρος vs Διάμεσος)</strong></a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#2-ο-γενικός-πληθωρισμός-κρύβει-το-κόστος-των-χρειαζούμενων"><strong>2. Ο γενικός πληθωρισμός κρύβει το κόστος των «χρειαζούμενων»</strong></a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#3-επίπεδα-εκκίνησης-13-πάνω-από-ένα-πάτωμα-παραμένει-πάτωμα"><strong>3. Επίπεδα εκκίνησης: +13% πάνω από ένα «πάτωμα» παραμένει πάτωμα</strong></a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#4-οι-δείκτες-φτώχειας-και-στέρησης-της-eurostat-το-επιβεβαιώνουν"><strong>4. Οι δείκτες φτώχειας και στέρησης της Eurostat το επιβεβαιώνουν</strong></a></div><ul class="outline-children"></ul></li><li class="outline-item-wrapper outline-h3"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#οι-4-δείκτες-που-δείχνουν-την-πραγματική-εικόνα-2010--2025"><strong>Οι 4 δείκτες που δείχνουν την πραγματική εικόνα (2010–2025)</strong></a></div><ul class="outline-children"></ul></li></ul></li><li class="outline-item-wrapper outline-h2"><div class="outline-item"><span class="outline-expander"></span><a class="outline-label" href="#συμπεράσματα">Συμπεράσματα</a></div><ul class="outline-children"></ul></li></ul></li></div></div><div id='write'  class=''><h1 id='ελληνική-οικονομία-πάει-καλά-ή-όχι'><span>Ελληνική Οικονομία. Πάει καλά ή όχι;</span></h1><p><strong><span>Καθηγητής Γ. Ζουγανέλης, Steam Expert</span></strong><span> </span></p><blockquote><p><span>Η απάντηση θα ξεκινήσει ωραία αλλά θα καταλήξει άσχημα.</span>
+<span>Η Ελληνική Οικονομία πάει απο το κακό στο χειρότερο!</span></p></blockquote><h2 id='τα-φοβερά-αποτελέσματα'><span>Τα φοβερά αποτελέσματα… </span></h2><h3 id='το-δήθεν-οικονομικό-θαύμα'><span>Το δήθεν Οικονομικό Θαύμα</span></h3><p><span>Παρακάτω είναι το διαδραστικό διάγραμμα που συγκρίνει τη μεταβολή του </span><strong><span>καθαρού μισθού</span></strong><span> σε σχέση με τον </span><strong><span>πληθωρισμό</span></strong><span> στην </span><strong><span>Ελλάδα</span></strong><span> και τον </span><strong><span>μέσο όρο της ΕΕ-27</span></strong><span> για την τελευταία 15ετία (2010–2025), με βάση τα επίσημα στοιχεία της Eurostat (</span><code>earn_nt_net</code><span> για άγαμο εργαζόμενο χωρίς παιδιά στο 100% του μέσου μισθού και </span><code>prc_hicp_aind</code><span> για τον Εναρμονισμένο Δείκτη Τιμών Καταναλωτή): </span></p><iframe src="https://strongfart.github.io/md-typora/wage_vs_inflation_gr_eu_standalone.html" style="width:100%; height:490px; border:0; border-radius:8px; overflow:hidden;" scrolling="no" loading="lazy"></iframe><h3 id='τι-δείχνουν-τα-στοιχεία'><strong><span>Τι δείχνουν τα στοιχεία</span></strong></h3><ul><li><p><strong><span>Πλήρης 15ετία Ελλάδας (2010–2025):</span></strong><span>    </span></p><ul><li><p><span>Ο ονομαστικός ετήσιος καθαρός μισθός μειώθηκε από </span><strong><span>€18.567</span></strong><span> (2010) σε </span><strong><span>€14.247</span></strong><span> (2020) και ανέκαμψε στα </span><strong><span>€21.498</span></strong><span> (2025), καταγράφοντας σωρευτική ονομαστική αύξηση </span><strong><span>+15,8%</span></strong><span>.</span></p></li><li><p><span>Την ίδια περίοδο ο γενικός πληθωρισμός (</span><code>CP00</code><span>) αυξήθηκε σωρευτικά κατά </span><strong><span>+23,5%</span></strong><span>, με αποτέλεσμα ο </span><strong><span>πραγματικός καθαρός μισθός</span></strong><span> (αγοραστική δύναμη) το 2025 να παραμένει </span><strong><span>-6,3%</span></strong><span> χαμηλότερος από το επίπεδο του 2010 (δείκτης </span><strong><span>93,7</span></strong><span> με βάση 2010=100).</span></p></li></ul></li><li><p><strong><span>Σύγκριση με τον μέσο όρο ΕΕ-27 (2013–2025):</span></strong><span> </span><em><span>(η σειρά </span><code>earn_nt_net</code><span> της Eurostat για την ΕΕ-27 ξεκινά από το 2013)</span></em><span>    </span></p><ul><li><p><span>Από το 2013 έως το 2025, ο ονομαστικός καθαρός μισθός στην ΕΕ-27 αυξήθηκε κατά </span><strong><span>+40,5%</span></strong><span> (από </span><strong><span>€21.324</span></strong><span> σε </span><strong><span>€29.954</span></strong><span>) με σωρευτικό γενικό πληθωρισμό </span><strong><span>+33,7%</span></strong><span>, δίνοντας πραγματική αύξηση </span><strong><span>+5,0%</span></strong><span> (δείκτης </span><strong><span>105,0</span></strong><span>).</span></p></li><li><p><span>Στην Ελλάδα, με αφετηρία το χαμηλό του 2013 (</span><strong><span>€15.811</span></strong><span>), ο ονομαστικός καθαρός μισθός αυξήθηκε κατά </span><strong><span>+36,0%</span></strong><span> και ο πληθωρισμός κατά </span><strong><span>+19,7%</span></strong><span> (λόγω αποπληθωρισμού το 2013–2015 και το 2020), δίνοντας άνοδο </span><strong><span>+13,6%</span></strong><span> από το 2013 — χωρίς όμως να έχει καλυφθεί πλήρως η απώλεια της περιόδου 2010–2013.</span></p></li></ul></li></ul><h2 id='και-τώρα-η-στιγμή-της-αλήθειας'><span>Και τώρα η στιγμή της αλήθειας…</span></h2><blockquote><p><span>Πώς γίνεται ο κόσμος να παραπονιέται πως δεν έχει να ψωνίσει!; Τί τελικά συμβαίνει;</span></p></blockquote><p><strong><span>Απάντηση:</span></strong>
+<span>Η διαφορά ανάμεσα στο «τι δείχνει το διάγραμμα» και «τι ζει ο κόσμος» οφείλεται σε </span><strong><span>τέσσερις πολύ συγκεκριμένους στατιστικούς λόγους</span></strong><span>:</span></p><h3 id='1-μέσος-μισθός-δεν-σημαίνει-τυπικός-μισθός-μέσος-όρος-vs-διάμεσος'><strong><span>1. «Μέσος μισθός» δεν σημαίνει «τυπικός μισθός» (Μέσος όρος vs Διάμεσος)</span></strong></h3><ul><li><p><span>Ο δείκτης </span><code>earn_nt_net</code><span> μετρά τον </span><strong><span>μέσο (mean)</span></strong><span> καθαρό μισθό εργαζομένου </span><strong><span>πλήρους απασχόλησης</span></strong><span> — όπου λίγοι πολύ υψηλοί μισθοί ανεβάζουν τον μέσο όρο, ενώ </span><strong><span>δεν</span></strong><span> περιλαμβάνει μερική απασχόληση, εποχικούς, ανέργους ή συνταξιούχους (και επιπλέον είχε μεθοδολογική αναθεώρηση από τη Eurostat το 2024).</span></p></li><li><p><span>Αν κοιτάξουμε το </span><strong><span>διάμεσο πραγματικό διαθέσιμο εισόδημα</span></strong><span> (αυτό που αντιστοιχεί στο τυπικό νοικοκυριό στη μέση της κατανομής), σύμφωνα με τη Eurostat η Ελλάδα το 2025 παραμένει </span><strong><span>-22,3% χαμηλότερα σε σχέση με το 2010</span></strong><span>, ενώ ο μέσος όρος της ΕΕ ανέβηκε </span><strong><span>+25,4%</span></strong><span>.</span></p></li></ul><h3 id='2-ο-γενικός-πληθωρισμός-κρύβει-το-κόστος-των-χρειαζούμενων'><strong><span>2. Ο γενικός πληθωρισμός κρύβει το κόστος των «χρειαζούμενων»</span></strong></h3><p><span>Ο γενικός δείκτης τιμών (HICP) είναι ένα μέσο καλάθι που περιλαμβάνει και προϊόντα/υπηρεσίες που δεν αγοράζονται καθημερινά (ηλεκτρονικά, ρούχα, ταξίδια κ.λπ.). Όμως στα βασικά αγαθά η εικόνα είναι εντελώς διαφορετική:</span></p><ul><li><p><strong><span>Τρόφιμα:</span></strong><span> Μόνο την περίοδο </span><strong><span>2019–2025</span></strong><span>, οι τιμές στα τρόφιμα αυξήθηκαν σωρευτικά κατά </span><strong><span>~32%–35%</span></strong><span> (+11,7% το 2022 και +9,9% το 2023).</span></p></li><li><p><strong><span>Στέγαση &amp; Ενοίκια:</span></strong><span> Η Ελλάδα είναι </span><strong><span>1η στην ΕΕ</span></strong><span> σε υπερβολικό κόστος στέγασης — το </span><strong><span>26,4%</span></strong><span> του πληθυσμού το 2025 (έναντι </span><strong><span>~7,7%</span></strong><span> στην ΕΕ) δίνει πάνω από το </span><strong><span>40% του εισοδήματός του</span></strong><span> μόνο για στέγαση και λογαριασμούς.</span></p></li></ul><h3 id='3-επίπεδα-εκκίνησης-13-πάνω-από-ένα-πάτωμα-παραμένει-πάτωμα'><strong><span>3. Επίπεδα εκκίνησης: +13% πάνω από ένα «πάτωμα» παραμένει πάτωμα</span></strong></h3><p><span>Ο ονομαστικός μέσος </span><strong><span>μικτός</span></strong><span> μισθός στην Ελλάδα παραμένει ο </span><strong><span>δεύτερος χαμηλότερος στην ΕΕ</span></strong><span> (~€18.800/έτος έναντι ~€41.500 μέσου όρου ΕΕ), ενώ οι τιμές σε σούπερ μάρκετ, ενέργεια και ενοίκια έχουν συγκλίνει προς τα ευρωπαϊκά επίπεδα. Όταν ξεκινάς από τόσο χαμηλή βάση, μια ποσοστιαία αύξηση δεν αρκεί για να καλύψει το βασικό καλάθι.</span></p><h3 id='4-οι-δείκτες-φτώχειας-και-στέρησης-της-eurostat-το-επιβεβαιώνουν'><strong><span>4. Οι δείκτες φτώχειας και στέρησης της Eurostat το επιβεβαιώνουν</span></strong></h3><p><span>Τα επίσημα στοιχεία της Eurostat για την Ελλάδα (2025) δείχνουν ευθέως την αδυναμία κάλυψης βασικών αναγκών:</span></p><ul><li><p><strong><span>50,5%</span></strong><span> του πληθυσμού δηλώνει ότι </span><strong><span>δεν μπορεί να καλύψει ένα έκτακτο έξοδο</span></strong><span> (το υψηλότερο ποσοστό στην ΕΕ).</span></p></li><li><p><strong><span>27,5%</span></strong><span> βρίσκεται σε κίνδυνο φτώχειας ή κοινωνικού αποκλεισμού (2η υψηλότερη στην ΕΕ).</span></p></li><li><p><strong><span>14,9%</span></strong><span> βιώνει </span><strong><span>σοβαρή υλική και κοινωνική στέρηση</span></strong><span> (αδυναμία θέρμανσης, πρωτεΐνης/κρέατος, διακοπών κ.λπ.), υπερδιπλάσιο ποσοστό από τον μέσο όρο της ΕΕ (</span><strong><span>6,3%</span></strong><span>).</span></p></li></ul><p><span>Με λίγα λόγια: το </span><code>earn_nt_net</code><span> δείχνει ότι ο </span><em><span>θεωρητικός μέσος εργαζόμενος πλήρους απασχόλησης</span></em><span> ανέκαμψε μερικώς μετά το 2020, αλλά για το </span><strong><span>τυπικό νοικοκυριό</span></strong><span> η ακρίβεια σε </span><strong><span>τρόφιμα και στέγη</span></strong><span> έχει εξανεμίσει κάθε ονομαστική αύξηση.</span></p><p><span>Για να φανεί καθαρά τι συμβαίνει στο </span><strong><span>τυπικό νοικοκυριό</span></strong><span> (και όχι στον θεωρητικό μέσο μισθό πλήρους απασχόλησης), ο πιο αξιόπιστος δείκτης είναι το </span><strong><span>Διάμεσο Ισοδύναμο Καθαρό Διαθέσιμο Εισόδημα (</span><code>ilc_di03</code><span> — </span><code>MED_EI</code><span>)</span></strong><span> της Eurostat, σε συνδυασμό με τους δείκτες βασικών αναγκών:</span></p><iframe src="https://strongfart.github.io/md-typora/household_reality_gr_eu_standalone.html" style="width:100%; height:460px; border:0; border-radius:8px; overflow:hidden;" scrolling="no" loading="lazy"></iframe><h3 id='οι-4-δείκτες-που-δείχνουν-την-πραγματική-εικόνα-2010--2025'><strong><span>Οι 4 δείκτες που δείχνουν την πραγματική εικόνα (2010–2025)</span></strong></h3><ol><li><p><strong><span>Διάμεσο Διαθέσιμο Εισόδημα σε πραγματικούς όρους (</span><code>ilc_di03</code><span> / </span><code>MED_EI</code><span> αποπληθωρισμένο με </span><code>HICP</code><span>)</span></strong></p><ul><li><p><span>Μετρά το εισόδημα του νοικοκυριού που βρίσκεται </span><strong><span>ακριβώς στη μέση</span></strong><span> της κοινωνίας (50% κερδίζουν λιγότερο, 50% περισσότερο), λαμβάνοντας υπόψη το μέγεθος του νοικοκυριού.</span></p></li><li><p><strong><span>Ελλάδα:</span></strong><span> Από </span><strong><span>€11.963</span></strong><span> (2010) σε </span><strong><span>€11.700</span></strong><span> (2025) — δηλαδή </span><strong><span>-2,2% ακόμα και ονομαστικά</span></strong><span> και περίπου </span><strong><span>-21% σε πραγματική αγοραστική δύναμη</span></strong><span>.</span></p></li><li><p><strong><span>ΕΕ-27:</span></strong><span> Από </span><strong><span>€14.521</span></strong><span> (2010) σε </span><strong><span>€22.939</span></strong><span> (2025) — δηλαδή </span><strong><span>+58% ονομαστικά</span></strong><span> (και ~+18% πραγματικά). Σε μονάδες αγοραστικής δύναμης (</span><strong><span>PPS</span></strong><span>), η Ελλάδα το 2025 είναι στις </span><strong><span>13.612 PPS</span></strong><span> έναντι </span><strong><span>22.638 PPS</span></strong><span> στην ΕΕ-27 (~40% χαμηλότερα).</span></p></li></ul></li><li><p><strong><span>Διάμεσο Εισόδημα vs Πληθωρισμός Τροφίμων (</span><code>CP01</code><span>) &amp; Στέγασης/Ενέργειας (</span><code>CP04</code><span>)</span></strong></p><ul><li><p><span>Στο ίδιο το μενού (επιλογή 2) φαίνεται η «ψαλίδα»: από το 2010 έως το 2025 το ονομαστικό διάμεσο εισόδημα στην Ελλάδα έμεινε στο </span><strong><span>-2,2%</span></strong><span>, ενώ τα </span><strong><span>τρόφιμα (</span><code>CP01</code><span>)</span></strong><span> ανέβηκαν </span><strong><span>+42%</span></strong><span> (εκ των οποίων +11,7% το 2022 και +11,6% το 2023) και η </span><strong><span>στέγαση/ενέργεια (</span><code>CP04</code><span>)</span></strong><span> </span><strong><span>+37%</span></strong><span>.</span></p></li></ul></li><li><p><strong><span>Δείκτης Υπερβολικού Κόστους Στέγασης (</span><code>ilc_lvho07a</code><span>)</span></strong></p><ul><li><p><span>Δείχνει το ποσοστό του πληθυσμού που ξοδεύει </span><strong><span>πάνω από το 40%</span></strong><span> του διαθέσιμου εισοδήματός του για στέγαση.</span></p></li><li><p><span>Το 2025 η Ελλάδα βρίσκεται στο </span><strong><span>26,4%</span></strong><span> (</span><strong><span>1η στην ΕΕ</span></strong><span>), υπερτριπλάσια από τον μέσο όρο της ΕΕ-27 (</span><strong><span>7,6%</span></strong><span>).</span></p></li></ul></li><li><p><strong><span>Δείκτης Σοβαρής Υλικής και Κοινωνικής Στέρησης (</span><code>ilc_mdsd11</code><span>)</span></strong></p><ul><li><p><span>Μετρά ευθέως πόσοι </span><strong><span>δεν μπορούν να αγοράσουν τα αναγκαία</span></strong><span> (έκτακτα έξοδα, επαρκή θέρμανση, τακτική κατανάλωση πρωτεΐνης κ.ά.).</span></p></li><li><p><span>Το 2025 στην Ελλάδα είναι </span><strong><span>14,9%</span></strong><span> (έναντι </span><strong><span>6,3%</span></strong><span> στην ΕΕ-27).</span>
+</p></li></ul></li></ol><h2 id='συμπεράσματα'><span>Συμπεράσματα</span></h2><p><img src="https://raw.githubusercontent.com/StrongFart/pics-typora/main/2026/11/upgit_20261125_1795603070.jpg" alt="images" style="zoom:67%;" /></p><p><span>Με βάση τα ανωτέρω ο Κ. Μητσοτάκης δεν δικαιολογείται να ομιλεί για </span><strong><span>οικονομική επιτυχία</span></strong><span> της χώρας. Την </span><strong><span>φτώχυνε</span></strong><span> με τη πολιτική του και αυτό μόλις </span><strong><span>αποδείχτηκε</span></strong><span> με μαθηματικά! </span></p><p><span>Αν ο πόλεμος στη Ουκρανία και στο Ιράν δεν υπήρχαν, η φτώχεια των Ελλήνων θα ήταν μικρότερη αλλά πάλι η </span><strong><span>Ελλάδα</span></strong><span> θα είχε τα </span><strong><span>ρεκόρ στην ΕΕ</span></strong><span>.</span></p><p><span>Πρέπει να περάσουμε σε αυτή τη χώρα απο τα συνθήματα και τη παραπληροφόρηση στη </span><strong><span>δημιουργική σαφήνεια</span></strong><span>. Δεν υπάρχει άλλος χρόνος.</span></p><p>&nbsp;</p></div></div>
+
+<script>(function(){function e(e,n,i){document.addEventListener(e,function(e){if(!e.defaultPrevented)for(var t=e.target;t&&t!=this;t=t.parentNode)if(t.matches(n)){!1===i.call(t,e)&&(e.preventDefault(),e.stopPropagation());break}},!1)}var t=document.body.parentElement,i=[],r=null,o=document.body.classList.contains("typora-export-collapse-outline");function a(){return t.scrollTop}e("click",".outline-expander",function(e){var t=this.closest(".outline-item-wrapper").classList;return t.contains("outline-item-open")?t.remove("outline-item-open"):t.add("outline-item-open"),u(),!1}),e("click",".outline-item",function(e){var t=this.querySelector(".outline-label");location.hash=t.getAttribute("href"),o&&((t=this.closest(".outline-item-wrapper").classList).contains("outline-item-open")||t.add("outline-item-open"),d(),t.add("outline-item-active"))});function s(){var e=a();r=null;for(var t=0;t<i.length&&i[t][1]-e<60;t++)r=i[t]}function n(){c=setTimeout(function(){var n;i=[],n=a(),document.querySelector("#write").querySelectorAll("h1, h2, h3, h4, h5, h6").forEach(e=>{var t=e.getAttribute("id");i.push([t,n+e.getBoundingClientRect().y])}),s(),u()},300)}var l,c,d=function(){document.querySelectorAll(".outline-item-active").forEach(e=>e.classList.remove("outline-item-active")),document.querySelectorAll(".outline-item-single.outline-item-open").forEach(e=>e.classList.remove("outline-item-open"))},u=function(){if(r&&(d(),t=document.querySelector('.outline-label[href="#'+(CSS.escape?CSS.escape(r[0]):r[0])+'"]')))if(o){var e=t.closest(".outline-item-open>ul>.outline-item-wrapper");if(e)e.classList.add("outline-item-active");else{for(var t,n=(t=t.closest(".outline-item-wrapper")).parentElement.closest(".outline-item-wrapper");n;)n=(t=n).parentElement.closest(".outline-item-wrapper");t.classList.add("outline-item-active")}}else t.closest(".outline-item-wrapper").classList.add("outline-item-active")};window.addEventListener("scroll",function(e){l&&clearTimeout(l),l=setTimeout(function(){s(),u()},300)});window.addEventListener("resize",function(e){c&&clearTimeout(c),n()}),n()})();</script></body>
+</html>
